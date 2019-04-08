@@ -14,7 +14,7 @@ let package = Package(
     targets: [
         .target(
             name: "Kyusu",
-            dependencies: ["Ocha", "SwiftShell", "PathKit", "YamlSwift"]),
+            dependencies: ["Ocha", "SwiftShell", "PathKit", "Yaml"]),
         .testTarget(
             name: "KyusuTests",
             dependencies: ["Kyusu"]),
