@@ -10,19 +10,9 @@ import Foundation
 public typealias Path = String
 public typealias Command = [String]
 public struct YamlConfig {
-    public let sourcePaths: [Path]
-    public let ignoredPaths: [Path]
-    public let command: Command
-    
-    public init(
-        sourcePaths: [Path],
-        ignoredPaths: [Path],
-        command: Command
-        ) {
-        self.sourcePaths = sourcePaths
-        self.ignoredPaths = ignoredPaths
-        self.command = command
-    }
+    let sourcePaths: [Path]
+    let ignoredPaths: [Path]
+    let command: Command
 }
 
 public protocol YamlReader {

@@ -8,8 +8,8 @@
 import Foundation
 
 public struct ExecutorInfo {
-    public let path: Path
-    public let command: Command
+    let path: Path
+    let command: Command
 }
 
 public protocol Executor {
