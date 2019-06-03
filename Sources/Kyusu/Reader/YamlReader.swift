@@ -16,11 +16,11 @@ public struct YamlConfig {
 }
 
 public protocol YamlReader {
-    func read(config: YamlConfig) throws
+    func read(filePath: Path) throws -> YamlConfig
 }
 
 public struct YamlReaderImpl: YamlReader {
-    public func read(config: YamlConfig) throws {
-        
+    public func read(filePath: Path) throws -> YamlConfig {
+        fatalError()
     }
 }
