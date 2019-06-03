@@ -20,6 +20,9 @@ public protocol YamlReader {
 }
 
 public struct YamlReaderImpl: YamlReader {
+    public init() {
+        
+    }
     public func read(filePath: Path) throws -> YamlConfig {
         fatalError()
     }

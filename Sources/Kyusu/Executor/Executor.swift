@@ -17,6 +17,9 @@ public protocol Executor {
 }
 
 public struct ExecutorImpl: Executor {
+    public init() {
+        
+    }
     public func exec(information: ExecutorInfo) throws {
         
     }
