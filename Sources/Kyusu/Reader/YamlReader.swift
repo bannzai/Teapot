@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Yaml
 
 public typealias Path = String
 public typealias Command = [String]
@@ -24,6 +25,36 @@ public struct YamlReaderImpl: YamlReader {
         
     }
     public func read(filePath: Path) throws -> YamlConfig {
-        fatalError()
+        return try parse(yaml: try load())
+    }
+}
+
+public enum YamlReadError: Error {
+    case missingYamlFormat
+}
+
+private extension YamlReaderImpl {
+    func load() throws -> Yaml {
+        let path = URL(string: FileManager.default.currentDirectoryPath)!
+        let content = try String(contentsOf: path)
+        let yaml = try Yaml.load(content)
+        return yaml
+    }
+    
+    func parse(yaml: Yaml) throws -> YamlConfig {
+        guard
+            let sources = yaml["source"].array,
+            let ignores = yaml["ignore"].array,
+            let execute = yaml["execute"].array
+            else {
+                throw YamlReadError.missingYamlFormat
+        }
+        
+        return YamlConfig(
+            sourcePaths: sources.compactMap { $0.string },
+            ignoredPaths: ignores.compactMap { $0.string },
+            command: execute.compactMap { $0.string }
+        )
+        
     }
 }
