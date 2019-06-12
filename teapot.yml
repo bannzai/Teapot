@@ -1,0 +1,8 @@
+ignore:
+- ".git"
+- ".gitignore"
+- tests/*
+source:
+- build/*
+execute: 
+- ls -la
