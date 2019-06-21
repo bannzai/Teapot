@@ -33,9 +33,16 @@ public enum YamlReadError: Error {
     case missingYamlFormat
 }
 
+let teapotYamlFileName = "teapot.yml"
 private extension YamlReaderImpl {
     func load() throws -> Yaml {
-        let path = URL(string: FileManager.default.currentDirectoryPath)!
+        let path = URL(
+            string: [
+                FileManager.default.currentDirectoryPath,
+                teapotYamlFileName
+                ]
+                .joined(separator: "/")
+            )!
         let content = try String(contentsOf: path)
         let yaml = try Yaml.load(content)
         return yaml
