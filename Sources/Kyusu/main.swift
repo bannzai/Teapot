@@ -5,8 +5,9 @@ import PathKit
 import Commander
 
 
-let main = command { (filename: String) in
-    let config = try YamlReaderImpl().read(filePath: filename)
+let main = command { (filePath: String) in
+    print("filePath: \(filePath)")
+    let config = try YamlReaderImpl().read(filePath: filePath)
     let infos = ConfigurationTranslatorImpl().translate(config: config)
     try infos.forEach { try ExecutorImpl().exec(information: $0) }
 }
