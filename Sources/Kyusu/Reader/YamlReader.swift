@@ -25,7 +25,7 @@ public struct YamlReaderImpl: YamlReader {
         
     }
     public func read(filePath: Path) throws -> YamlConfig {
-        return try parse(yaml: try load())
+        return try parse(yaml: try load(filePath: filePath))
     }
 }
 
@@ -35,14 +35,8 @@ public enum YamlReadError: Error {
 
 let teapotYamlFileName = "teapot.yml"
 private extension YamlReaderImpl {
-    func load() throws -> Yaml {
-        let path = URL(
-            string: [
-                FileManager.default.currentDirectoryPath,
-                teapotYamlFileName
-                ]
-                .joined(separator: "/")
-            )!
+    func load(filePath: Path) throws -> Yaml {
+        let path = URL(string: filePath)!
         let content = try String(contentsOf: path)
         let yaml = try Yaml.load(content)
         return yaml
