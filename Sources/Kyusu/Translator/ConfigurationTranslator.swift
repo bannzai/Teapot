@@ -7,11 +7,13 @@
 
 import Foundation
 
-public protocol ConfigurationTranslator {
-    func translate(config: YamlConfig) -> [ExecutorInfo]
+public protocol Translator {
+    associatedtype Input
+    associatedtype Output
+    func translate(config: Input) -> Output
 }
 
-public struct ConfigurationTranslatorImpl: ConfigurationTranslator {
+public struct ConfigurationTranslator: Translator {
     public init() {
         
     }
