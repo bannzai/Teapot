@@ -13,10 +13,11 @@ public struct ExecutorInfo {
 }
 
 public protocol Executor {
-    func exec(information: ExecutorInfo) throws
+    associatedtype Information
+    func exec(information: Information) throws
 }
 
-public struct ExecutorImpl: Executor {
+public struct TeapotCommandExecutor: Executor {
     public init() {
         
     }
