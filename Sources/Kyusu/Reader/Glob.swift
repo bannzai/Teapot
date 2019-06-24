@@ -8,9 +8,17 @@
 import Foundation
 import Darwin
 
-public func glob(_ pattern: String) -> [Path] {
+public func glob(basePath: Path, pattern: String) -> [Path] {
+    let globURL: Path
+    switch basePath.last == "/" {
+    case true:
+        globURL = basePath + pattern
+    case false:
+        globURL = basePath + "/" + pattern
+    }
+    
     var gt = glob_t()
-    let cPattern = strdup(pattern)
+    let cPattern = strdup(globURL)
     defer {
         globfree(&gt)
         free(cPattern)
