@@ -37,7 +37,7 @@ public enum YamlReadError: Error {
 let teapotYamlFileName = "teapot.yml"
 private extension YamlConfigReader {
     func load(filePath: Path) throws -> Yaml {
-        let path = URL(string: filePath)!
+        let path = URL(fileURLWithPath: filePath)
         let content = try String(contentsOf: path)
         let yaml = try Yaml.load(content)
         return yaml
