@@ -24,21 +24,24 @@ public struct ExtractorRule<T> {
     }
 }
 
+public protocol HasRule {
+    associatedtype RuleContentType
+    var rule: ExtractorRule<RuleContentType> { get }
+}
+
 public protocol Extractor {
     associatedtype ContentType
-    
-    var rule: ExtractorRule<ContentType> { get }
-    
+
     func extract(content: [ContentType]) -> [ContentType]
 }
 
-extension Extractor {
+extension Extractor where Self: HasRule, Self.RuleContentType == Self.ContentType {
     public func extract(content: [ContentType]) -> [ContentType] {
         return content.compactMap { rule.apply(content: $0) }
     }
 }
 
-public struct FilePathExtractor: Extractor {
+public struct FilePathExtractor: Extractor, HasRule {
     public typealias ContentType = Path
     public var rule: ExtractorRule<Path>
     public init(rule: ExtractorRule<Path>) {
