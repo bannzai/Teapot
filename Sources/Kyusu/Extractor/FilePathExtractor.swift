@@ -12,7 +12,7 @@ public struct ExtractorRule<T> {
     
     private let rule: (T) -> Bool
     
-    init(rule: @escaping (T) -> Bool) {
+    public init(rule: @escaping (T) -> Bool) {
         self.rule = rule
     }
     func canApply(content: T) -> Bool {
