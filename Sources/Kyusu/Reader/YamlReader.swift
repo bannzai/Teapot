@@ -16,11 +16,12 @@ public struct YamlConfig {
     let command: Command
 }
 
-public protocol YamlReader {
-    func read(filePath: Path) throws -> YamlConfig
+public protocol ConfigReader {
+    associatedtype Config
+    func read(filePath: Path) throws -> Config
 }
 
-public struct YamlReaderImpl: YamlReader {
+public struct YamlConfigReader: ConfigReader {
     public init() {
         
     }
@@ -34,7 +35,7 @@ public enum YamlReadError: Error {
 }
 
 let teapotYamlFileName = "teapot.yml"
-private extension YamlReaderImpl {
+private extension YamlConfigReader {
     func load(filePath: Path) throws -> Yaml {
         let path = URL(string: filePath)!
         let content = try String(contentsOf: path)
