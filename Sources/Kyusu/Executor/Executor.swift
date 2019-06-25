@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftShell
 
 public struct ExecutorInfo {
     let path: Path
@@ -22,6 +23,6 @@ public struct TeapotCommandExecutor: Executor {
         
     }
     public func exec(information: ExecutorInfo) throws {
-        
+        main.run(bash: information.command.joined(separator: " ") + " \(information.path)")
     }
 }
