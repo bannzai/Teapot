@@ -23,6 +23,7 @@ public struct TeapotCommandExecutor: Executor {
         
     }
     public func exec(information: ExecutorInfo) throws {
-        main.run(bash: information.command.joined(separator: " ") + " \(information.path)")
+        let command = information.command.joined(separator: " ") + " \(information.path)"
+        print(main.run(bash: command).stdout) // TODO: changing filedescriptor
     }
 }
