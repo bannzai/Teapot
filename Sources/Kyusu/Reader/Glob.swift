@@ -19,7 +19,7 @@ public struct Glob {
         case false:
             globURL = basePath + "/" + pattern
         }
-        
+
         var gt = glob_t()
         let cPattern = strdup(globURL)
         defer {

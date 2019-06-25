@@ -18,12 +18,35 @@ public protocol Executor {
     func exec(information: Information) throws
 }
 
+public enum ExecutorError: Error {
+    case unknown
+    
+    var localizedDescription: String {
+        switch self {
+        case .unknown:
+            return "Unexpected error from SwiftShell."
+        }
+    }
+}
+
 public struct TeapotCommandExecutor: Executor {
     public init() {
         
     }
     public func exec(information: ExecutorInfo) throws {
         let command = information.command.joined(separator: " ") + " \(information.path)"
+        let output = main.run(bash: command)
+        switch output.succeeded {
+        case false:
+            switch output.error {
+            case .none:
+                throw ExecutorError.unknown
+            case .some(let error):
+                throw error
+            }
+        case true:
+            print(output.stdout)
+        }
         print(main.run(bash: command).stdout) // TODO: changing filedescriptor
     }
 }

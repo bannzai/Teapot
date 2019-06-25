@@ -12,17 +12,18 @@ if let pwd = ProcessInfo.processInfo.environment["DEBUG_PWD"] {
 let currentWorkingDirectory = SwiftShell.main.currentdirectory
 
 let runner = command { (filePath: String) in
-    print("filePath: \(filePath)")
-    let config = try YamlConfigReader().read(filePath: filePath)
-    print("config: \(config)")
-    let infos = ConfigurationTranslator(
-        extractor: FilePathExtractor(),
-        sourcePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.sourcePaths),
-        ignorePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.ignoredPaths)
-        )
-        .translate(config: config)
-    print("infos: \(infos)")
-    try infos.forEach { try TeapotCommandExecutor().exec(information: $0) }
+    do {
+        let config = try YamlConfigReader().read(filePath: filePath)
+        let infos = ConfigurationTranslator(
+            extractor: FilePathExtractor(),
+            sourcePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.sourcePaths),
+            ignorePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.ignoredPaths)
+            )
+            .translate(config: config)
+        try infos.forEach { try TeapotCommandExecutor().exec(information: $0) }
+    } catch {
+        print("[ERROR]🚫: " + error.localizedDescription)
+    }
 }
 
 runner.run()
