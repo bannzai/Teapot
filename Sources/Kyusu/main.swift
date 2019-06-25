@@ -14,7 +14,7 @@ let runner = command { (filePath: String) in
     let infos = ConfigurationTranslator(
         extractor: FilePathExtractor(),
         sourcePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.sourcePaths),
-        ignorePathCollector:  FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.ignoredPaths)
+        ignorePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.ignoredPaths)
         )
         .translate(config: config)
     print("infos: \(infos)")
