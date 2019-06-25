@@ -3,8 +3,12 @@ import Yaml
 import Ocha
 import PathKit
 import Commander
+import Foundation
 
 
+if let pwd = ProcessInfo.processInfo.environment["DEBUG_PWD"] {
+    SwiftShell.main.currentdirectory = pwd
+}
 let currentWorkingDirectory = SwiftShell.main.currentdirectory
 
 let runner = command { (filePath: String) in

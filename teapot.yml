@@ -4,5 +4,7 @@ ignore:
 - tests/*
 source:
 - build/*
+- Sources/*.*
+- Sources/Kyusu/*.*
 execute: 
 - ls -la
