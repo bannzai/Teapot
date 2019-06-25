@@ -7,44 +7,19 @@
 
 import Foundation
 
-public struct ExtractorRule<T> {
-    typealias Content = T
-    
-    private let rule: (T) -> Bool
-    
-    public init(rule: @escaping (T) -> Bool) {
-        self.rule = rule
-    }
-    func canApply(content: T) -> Bool {
-        return rule(content)
-    }
-    
-    func apply(content: T) -> T? {
-        return canApply(content: content) ? content : nil
-    }
-}
-
-public protocol HasRule {
-    associatedtype RuleContentType
-    var rule: ExtractorRule<RuleContentType> { get }
-}
-
 public protocol Extractor {
-    associatedtype ContentType
+    associatedtype ExtractContentType
 
-    func extract(content: [ContentType]) -> [ContentType]
+    func extract(sources: [ExtractContentType], ignores: [ExtractContentType]) -> [ExtractContentType]
 }
 
-extension Extractor where Self: HasRule, Self.RuleContentType == Self.ContentType {
-    public func extract(content: [ContentType]) -> [ContentType] {
-        return content.compactMap { rule.apply(content: $0) }
-    }
-}
 
-public struct FilePathExtractor: Extractor, HasRule {
-    public typealias ContentType = Path
-    public var rule: ExtractorRule<Path>
-    public init(rule: ExtractorRule<Path>) {
-        self.rule = rule
+public struct FilePathExtractor: Extractor {
+    public typealias ExtractContentType = Path
+    
+    public init() { }
+    
+    public func extract(sources: [Path], ignores: [Path]) -> [Path] {
+        return sources.filter { !ignores.contains($0) }
     }
 }

@@ -11,9 +11,9 @@ import Yaml
 public typealias Path = String
 public typealias Command = [String]
 public struct YamlConfig {
-    let sourcePaths: [Path]
-    let ignoredPaths: [Path]
-    let command: Command
+    public let sourcePaths: [Path]
+    public let ignoredPaths: [Path]
+    public let command: Command
 }
 
 public protocol ConfigReader {

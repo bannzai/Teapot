@@ -16,7 +16,15 @@ public protocol Collector {
 
 public struct FilePathCollector: Collector {
     let baseFilePath: Path
-    let accessor: WritableKeyPath<YamlConfig, [Path]>
+    let accessor: KeyPath<YamlConfig, [Path]>
+    
+    public init(
+        baseFilePath: Path,
+        accessor: KeyPath<YamlConfig, [Path]>
+        ) {
+        self.baseFilePath = baseFilePath
+        self.accessor = accessor
+    }
     
     public func collect(info: YamlConfig) -> [Path] {
         return info[keyPath: accessor].flatMap { path -> [Path] in
