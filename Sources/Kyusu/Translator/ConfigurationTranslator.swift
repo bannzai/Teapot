@@ -18,13 +18,13 @@ public struct ConfigurationTranslator<E: Extractor, C: Collector> {
     }
 }
 
-extension ConfigurationTranslator: Translator where E.ExtractContentType == Path, C.CollectContent == E.ExtractContentType, C.CollectInformation == YamlConfig {
-    public func translate(config: YamlConfig) -> [TeapotCommandExecuteInformation] {
+extension ConfigurationTranslator: Translator where E.ExtractContentType == Path, C.CollectContent == E.ExtractContentType, C.CollectInformation == Config {
+    public func translate(config: Config) -> [ExecutorInformation] {
         return extractor
             .extract(
                 sources: sourcePathCollector.collect(info: config),
                 ignores: ignorePathCollector.collect(info: config)
             )
-            .map { TeapotCommandExecuteInformation(path: $0, command: config.command) }
+            .map { ExecutorInformation(path: $0, command: config.command) }
     }
 }

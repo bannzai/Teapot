@@ -8,7 +8,7 @@
 import Foundation
 import Yaml
 
-public struct YamlConfig {
+public struct Config {
     public let sourcePaths: [Path]
     public let ignoredPaths: [Path]
     public let command: Command
@@ -18,7 +18,7 @@ public struct YamlConfigReader: ConfigReader {
     public init() {
         
     }
-    public func read(filePath: Path) throws -> YamlConfig {
+    public func read(filePath: Path) throws -> Config {
         return try parse(yaml: try load(filePath: filePath))
     }
 }
@@ -32,7 +32,7 @@ private extension YamlConfigReader {
         return yaml
     }
     
-    func parse(yaml: Yaml) throws -> YamlConfig {
+    func parse(yaml: Yaml) throws -> Config {
         guard
             let sources = yaml["source"].array,
             let ignores = yaml["ignore"].array,
@@ -41,7 +41,7 @@ private extension YamlConfigReader {
                 throw YamlReadError.missingYamlFormat
         }
         
-        return YamlConfig(
+        return Config(
             sourcePaths: sources.compactMap { $0.string },
             ignoredPaths: ignores.compactMap { $0.string },
             command: execute.compactMap { $0.string }

@@ -8,7 +8,6 @@
 import Foundation
 
 public protocol ConfigReader {
-    associatedtype Config
     func read(filePath: Path) throws -> Config
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftShell
 
-public struct TeapotCommandExecuteInformation {
+public struct ExecutorInformation {
     let path: Path
     let command: Command
 }
@@ -17,7 +17,7 @@ public struct TeapotCommandExecutor: Executor {
     public init() {
         
     }
-    public func exec(information: TeapotCommandExecuteInformation) throws {
+    public func exec(information: ExecutorInformation) throws {
         let command = information.command.joined(separator: " ") + " \(information.path)"
         let output = main.run(bash: command)
         switch output.succeeded {
