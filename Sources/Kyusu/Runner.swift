@@ -92,3 +92,9 @@ public struct Runner<T: Translator>
         }
     }
 }
+
+
+public func run() {
+    Runner<Runner.DefaultTranslator>.create().run()
+    RunLoop.main.run()
+}
