@@ -87,7 +87,11 @@ public class Runner<T: Translator>
         watcher.watch { [weak self] (events) in
             // FIXME: Watcher can not register throws keyword. Because Watcher.start call from Objective-C API.
             do {
-                try infos.forEach { try self?.dependency.executor.exec(information: $0) }
+                try infos
+                    .filter { info in
+                        events.map { $0.path }.contains(info.path)
+                    }
+                    .forEach { try self?.dependency.executor.exec(information: $0) }
             } catch {
                 print(errorLogPrefix + error.localizedDescription)
             }
