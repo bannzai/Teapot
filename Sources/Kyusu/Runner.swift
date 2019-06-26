@@ -20,15 +20,18 @@ public struct Runner<T: Translator>
         let configurationTranslator: T
         let configReader: ConfigReader
         let executor: Executor
+        let watcherType: Watcher.Type
         
         public init(
             configurationTranslator: T,
             configReader: ConfigReader,
-            executor: Executor
+            executor: Executor,
+            watcherType: Watcher.Type
             ) {
             self.configurationTranslator = configurationTranslator
             self.configReader = configReader
             self.executor = executor
+            self.watcherType = watcherType
         }
     }
 
@@ -61,7 +64,8 @@ public struct Runner<T: Translator>
                     ignorePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.ignoredPaths)
                 ),
                 configReader: YamlConfigReader(),
-                executor: TeapotCommandExecutor()
+                executor: TeapotCommandExecutor(),
+                watcherType: Ocha.Watcher.self
             )
         )
     }
@@ -77,8 +81,8 @@ public struct Runner<T: Translator>
         }
         
         let infos = dependency.configurationTranslator.translate(config: config)
-        let watcher = Ocha.Watcher(paths: infos.map { $0.path })
-        watcher.start { (events) in
+        let watcher = dependency.watcherType.create(paths: infos.map { $0.path })
+        watcher.watch { (events) in
             // FIXME: Watcher can not register throws keyword. Because Watcher.start call from Objective-C API.
             do {
                 try infos.forEach { try self.dependency.executor.exec(information: $0) }
