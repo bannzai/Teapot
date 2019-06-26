@@ -7,12 +7,6 @@
 
 import Foundation
 
-public protocol Translator {
-    associatedtype Input
-    associatedtype Output
-    func translate(config: Input) -> Output
-}
-
 public struct ConfigurationTranslator<E: Extractor, C: Collector> {
     private let extractor: E
     private let sourcePathCollector: C
