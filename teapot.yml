@@ -5,6 +5,6 @@ ignore:
 source:
 - build/*
 - Sources/*.*
-- Sources/Kyusu/*.*
+- Sources/Teapot/*.*
 execute: 
 - ls -la
