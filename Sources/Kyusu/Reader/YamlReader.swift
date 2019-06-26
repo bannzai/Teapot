@@ -8,6 +8,11 @@
 import Foundation
 import Yaml
 
+public struct YamlConfig {
+    public let sourcePaths: [Path]
+    public let ignoredPaths: [Path]
+    public let command: Command
+}
 
 public struct YamlConfigReader: ConfigReader {
     public init() {
@@ -16,10 +21,6 @@ public struct YamlConfigReader: ConfigReader {
     public func read(filePath: Path) throws -> YamlConfig {
         return try parse(yaml: try load(filePath: filePath))
     }
-}
-
-public enum YamlReadError: Error {
-    case missingYamlFormat
 }
 
 let teapotYamlFileName = "teapot.yml"
