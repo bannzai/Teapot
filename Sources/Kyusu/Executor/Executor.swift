@@ -49,6 +49,5 @@ public struct TeapotCommandExecutor: Executor {
         case true:
             print(output.stdout)
         }
-        print(main.run(bash: command).stdout) // TODO: changing filedescriptor
     }
 }
