@@ -40,9 +40,11 @@ public struct TeapotCommandExecutor: Executor {
         case false:
             switch output.error {
             case .none:
-                throw ExecutorError.unknown
+                print("[ERROR]🚫: " + ExecutorError.unknown.localizedDescription)
+                exit(1)
             case .some(let error):
-                throw error
+                print("[ERROR]🚫: " + error.localizedDescription)
+                exit(2)
             }
         case true:
             print(output.stdout)
