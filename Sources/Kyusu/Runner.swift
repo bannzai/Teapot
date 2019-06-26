@@ -13,7 +13,7 @@ import PathKit
 import Commander
 
 fileprivate let errorLogPrefix = "[ERROR]🚫: "
-public struct Runner<T: Translator>
+public class Runner<T: Translator>
     where T.Input == Config, T.Output == [ExecutorInformation] {
 
     public struct Dependency {
@@ -37,6 +37,9 @@ public struct Runner<T: Translator>
 
     private let workingDirectory: String
     private let dependency: Dependency
+    
+    // Keep watcher
+    private var watcher: Watcher!
 
     public init(
         workingDirectory: String,
@@ -71,30 +74,23 @@ public struct Runner<T: Translator>
     }
 
     public func run() {
-
         let config: Config
         do {
-            config = try dependency.configReader.read(filePath: teapotYamlFileName)
+            config = try dependency.configReader.read(filePath: workingDirectory + teapotYamlFileName)
         } catch {
             print(errorLogPrefix + "Can not read yaml file. " + error.localizedDescription)
             exit(1)
         }
         
         let infos = dependency.configurationTranslator.translate(config: config)
-        let watcher = dependency.watcherType.create(paths: infos.map { $0.path })
-        watcher.watch { (events) in
+        watcher = dependency.watcherType.create(paths: infos.map { $0.path })
+        watcher.watch { [weak self] (events) in
             // FIXME: Watcher can not register throws keyword. Because Watcher.start call from Objective-C API.
             do {
-                try infos.forEach { try self.dependency.executor.exec(information: $0) }
+                try infos.forEach { try self?.dependency.executor.exec(information: $0) }
             } catch {
                 print(errorLogPrefix + error.localizedDescription)
             }
         }
     }
-}
-
-
-public func run() {
-    Runner<Runner.DefaultTranslator>.create().run()
-    RunLoop.main.run()
 }
