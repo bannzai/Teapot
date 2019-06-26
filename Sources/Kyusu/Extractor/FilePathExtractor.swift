@@ -7,13 +7,6 @@
 
 import Foundation
 
-public protocol Extractor {
-    associatedtype ExtractContentType
-
-    func extract(sources: [ExtractContentType], ignores: [ExtractContentType]) -> [ExtractContentType]
-}
-
-
 public struct FilePathExtractor: Extractor {
     public typealias ExtractContentType = Path
     
