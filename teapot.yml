@@ -1,0 +1,10 @@
+ignore:
+- ".git"
+- ".gitignore"
+- tests/*
+source:
+- build/*
+- Sources/*.*
+- Sources/Kyusu/*.*
+execute: 
+- ls -la
