@@ -7,13 +7,6 @@
 
 import Foundation
 
-public protocol Collector {
-    associatedtype CollectContent
-    associatedtype CollectInformation
-    
-    func collect(info: CollectInformation) -> [CollectContent]
-}
-
 public struct FilePathCollector: Collector {
     let baseFilePath: Path
     let accessor: KeyPath<YamlConfig, [Path]>
