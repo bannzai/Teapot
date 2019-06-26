@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Kyusu",
+    name: "Teapot",
     dependencies: [
         .package(url: "https://github.com/kareman/SwiftShell.git", from: Version(4, 1, 2)),
         .package(url: "https://github.com/kylef/PathKit.git", from: Version(0, 9, 2)),
@@ -14,10 +14,10 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Kyusu",
+            name: "Teapot",
             dependencies: ["Ocha", "SwiftShell", "PathKit", "Yaml", "Commander"]),
         .testTarget(
             name: "KyusuTests",
-            dependencies: ["Kyusu"]),
+            dependencies: ["Teapot"]),
     ]
 )
