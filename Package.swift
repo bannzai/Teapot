@@ -5,6 +5,12 @@ import PackageDescription
 
 let package = Package(
     name: "Teapot",
+    products: [
+        // Products define the executables and libraries produced by a package, and make them visible to other packages.
+        .executable(
+            name: "Teapot",
+            targets: ["Teapot"]),
+    ],
     dependencies: [
         .package(url: "https://github.com/kareman/SwiftShell.git", from: Version(4, 1, 2)),
         .package(url: "https://github.com/kylef/PathKit.git", from: Version(0, 9, 2)),
@@ -15,9 +21,12 @@ let package = Package(
     targets: [
         .target(
             name: "Teapot",
+            dependencies: ["TeapotCore"]),
+        .target(
+            name: "TeapotCore",
             dependencies: ["Ocha", "SwiftShell", "PathKit", "Yaml", "Commander"]),
         .testTarget(
-            name: "KyusuTests",
-            dependencies: ["Teapot"]),
+            name: "TeapotTests",
+            dependencies: ["TeapotCore"]),
     ]
 )
