@@ -8,7 +8,8 @@
 import Foundation
 
 public protocol Executor {
-    func exec(information: ExecutorInformation) throws
+    associatedtype Information
+    func exec(information: Information) throws
 }
 
 public enum ExecutorError: Error {

@@ -7,7 +7,7 @@ Group {
         print("setup")
     })
     $0.command("start", {
-        let runner = Runner<Runner.DefaultTranslator>.create()
+        let runner = TeapotRunner.create()
         runner.run()
         RunLoop.main.run()
     })
