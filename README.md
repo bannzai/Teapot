@@ -8,8 +8,9 @@ And it can be run on macOS.
 
 
 ## Install
+Using mint. 
 ```shell
-$ brew install bannzai/teapot/teapot
+$ mint install bannzai/Teapot
 ```
 
 ## Usage
