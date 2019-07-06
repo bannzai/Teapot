@@ -1,9 +1,0 @@
-ignore:
-- .git*
-source:
-- .gitignore
-- build/*
-- Sources/*
-- Sources/Teapot/*
-execute: 
-- ls -la
