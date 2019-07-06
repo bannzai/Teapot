@@ -19,40 +19,42 @@ class StartTests: XCTestCase {
     }
 
     func testExample() {
-        let translatedValue = ExecutorInformation(path: "Sources/Teapot/main.swift", commands: ["ls", "-la"])
-        let translator = TranslatorMock()
-        translator.translateConfigClosure = { _ in return [translatedValue] }
-
-        let reader = ConfigReaderMock()
-        reader.readFilePathClosure = { path in
-            return Config(
-                sourcePaths: ["Sources/Teapot/main.swift"],
-                ignoredPaths: [".git"],
-                commands: ["ls -la"]
+        XCTContext.runActivity(named: "Check translator value") { (_) in
+            let translatedValue = ExecutorInformation(path: "Sources/Teapot/main.swift", commands: ["ls", "-la"])
+            let translator = TranslatorMock()
+            translator.translateConfigClosure = { _ in return [translatedValue] }
+            
+            let reader = ConfigReaderMock()
+            reader.readFilePathClosure = { path in
+                return Config(
+                    sourcePaths: ["Sources/Teapot/main.swift"],
+                    ignoredPaths: [".git"],
+                    commands: ["ls -la"]
+                )
+            }
+            
+            let expectation = self.expectation(description: #function)
+            let executor = ExecutorMock<ExecutorInformation>()
+            executor.execInformationClosure = { _ in
+                expectation.fulfill()
+            }
+            
+            let start = Start(
+                workingDirectory: pwd,
+                dependency: Start.Dependency(
+                    configurationTranslator: translator,
+                    configReader: reader,
+                    executor: executor,
+                    watcherType: WatcherMock.self
+                )
             )
+            
+            start.run()
+            wait(for: [expectation], timeout: 0.1)
+            
+            XCTAssertEqual(executor.execInformationReceivedInformation?.commands, translatedValue.commands)
+            XCTAssertEqual(executor.execInformationReceivedInformation?.path, translatedValue.path)
         }
-
-        let expectation = self.expectation(description: #function)
-        let executor = ExecutorMock<ExecutorInformation>()
-        executor.execInformationClosure = { _ in
-            expectation.fulfill()
-        }
-
-        let start = Start(
-            workingDirectory: pwd,
-            dependency: Start.Dependency(
-                configurationTranslator: translator,
-                configReader: reader,
-                executor: executor,
-                watcherType: WatcherMock.self
-            )
-        )
-        
-        start.run()
-        wait(for: [expectation], timeout: 0.1)
-        
-        XCTAssertEqual(executor.execInformationReceivedInformation?.commands, translatedValue.commands)
-        XCTAssertEqual(executor.execInformationReceivedInformation?.path, translatedValue.path)
     }
 
     func testPerformanceExample() {
