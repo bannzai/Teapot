@@ -1,5 +1,5 @@
 //
-//  SetupTests.swift
+//  StartTests.swift
 //  TeapotTests
 //
 //  Created by Yudai Hirose on 2019/07/06.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import TeapotCore
 
-class SetupTests: XCTestCase {
+class StartTests: XCTestCase {
     let pwd = "/Users/bannzai/development/Teapot"
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
