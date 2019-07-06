@@ -1,11 +1,10 @@
 ignore:
 - .git*
 source:
-- .build/*
+- teapot.yml
 - Tests/*
 - README.md
 - Package.resolved
-- .gitignore
 - Package.swift
 - Sources/*
 - Teapot.xcodeproj/*
