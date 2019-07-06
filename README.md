@@ -1,3 +1,9 @@
+[![Teapot](logo/teapot_logo.png)](logo/teapot_logo.png)
+
+[![swift5.0](https://img.shields.io/badge/language-swift5.0-blue.svg?style=flat)](https://developer.apple.com/swift)
+[![Platform](https://img.shields.io/badge/platform-macOS-green.svg)](https://img.shields.io/badge/platform-macOS-green.svg)
+[![License](http://img.shields.io/badge/license-MIT-000000.svg?style=)](https://github.com/bannzai/Teapot/blob/master/LICENSE)
+
 ## Teapot
 Teapot is command line tool writen by Swift.  
 It can be execute your shell command for each file, when file modified.
