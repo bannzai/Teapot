@@ -1,10 +1,15 @@
 ignore:
-- ".git"
-- ".gitignore"
-- tests/*
+- .git*
 source:
-- build/*
-- Sources/*.*
-- Sources/Teapot/*.*
-execute: 
+- .build/*
+- teapot.yml
+- Tests/*
+- README.md
+- Package.resolved
+- .gitignore
+- Package.swift
+- Sources/*
+- .git/*
+- Teapot.xcodeproj/*
+execute:
 - ls -la

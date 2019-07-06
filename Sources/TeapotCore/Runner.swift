@@ -12,21 +12,26 @@ import Ocha
 import PathKit
 import Commander
 
+public protocol Runner {
+    func run()
+}
+
 fileprivate let errorLogPrefix = "[ERROR]🚫: "
-public class Runner<T: Translator>
-    where T.Input == Config, T.Output == [ExecutorInformation] {
+public class Start<T: Translator, E: Executor>: Runner where
+    T.Input == Config, T.Output == [ExecutorInformation],
+    E.Information == ExecutorInformation {
 
     public struct Dependency {
         let configurationTranslator: T
         let configReader: ConfigReader
-        let executor: Executor
-        let watcherType: Watcher.Type
+        let executor: E
+        let watcherType: WatcherType.Type
         
         public init(
             configurationTranslator: T,
             configReader: ConfigReader,
-            executor: Executor,
-            watcherType: Watcher.Type
+            executor: E,
+            watcherType: WatcherType.Type
             ) {
             self.configurationTranslator = configurationTranslator
             self.configReader = configReader
@@ -39,7 +44,7 @@ public class Runner<T: Translator>
     private let dependency: Dependency
     
     // Keep watcher
-    private var watcher: Watcher!
+    private var watcher: WatcherType!
 
     public init(
         workingDirectory: String,
@@ -49,8 +54,7 @@ public class Runner<T: Translator>
         self.dependency = dependency
     }
     
-    public typealias DefaultTranslator = ConfigurationTranslator<FilePathExtractor, FilePathCollector>
-    public static func create() -> Runner<DefaultTranslator> {
+    public static func create() -> TeapotRunner {
         let currentWorkingDirectory: String
         switch ProcessInfo.processInfo.environment["DEBUG_PWD"] {
         case nil:
@@ -58,10 +62,10 @@ public class Runner<T: Translator>
         case let pwd?:
             currentWorkingDirectory = pwd
         }
-        return Runner<DefaultTranslator>(
+        return TeapotRunner(
             workingDirectory: currentWorkingDirectory,
-            dependency: Runner<DefaultTranslator>.Dependency(
-                configurationTranslator: DefaultTranslator(
+            dependency: TeapotRunner.Dependency(
+                configurationTranslator: ConfigurationTranslator<FilePathExtractor, FilePathCollector>(
                     extractor: FilePathExtractor(),
                     sourcePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.sourcePaths),
                     ignorePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.ignoredPaths)
@@ -76,7 +80,7 @@ public class Runner<T: Translator>
     public func run() {
         let config: Config
         do {
-            config = try dependency.configReader.read(filePath: workingDirectory + teapotYamlFileName)
+            config = try dependency.configReader.read(filePath: workingDirectory + "/" + teapotYamlFileName)
         } catch {
             print(errorLogPrefix + "Can not read yaml file. " + error.localizedDescription)
             exit(1)
@@ -88,9 +92,7 @@ public class Runner<T: Translator>
             // FIXME: Watcher can not register throws keyword. Because Watcher.start call from Objective-C API.
             do {
                 try infos
-                    .filter { info in
-                        events.map { $0.path }.contains(info.path)
-                    }
+                    .filter { info in events.map { $0.path }.contains(info.path) }
                     .forEach { try self?.dependency.executor.exec(information: $0) }
             } catch {
                 print(errorLogPrefix + error.localizedDescription)
@@ -98,3 +100,5 @@ public class Runner<T: Translator>
         }
     }
 }
+
+public typealias TeapotRunner = Start<ConfigurationTranslator<FilePathExtractor, FilePathCollector>, TeapotCommandExecutor>

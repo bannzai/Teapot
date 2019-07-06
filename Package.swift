@@ -21,12 +21,12 @@ let package = Package(
     targets: [
         .target(
             name: "Teapot",
-            dependencies: ["TeapotCore"]),
+            dependencies: ["TeapotCore", "Commander"]),
         .target(
             name: "TeapotCore",
-            dependencies: ["Ocha", "SwiftShell", "PathKit", "Yaml", "Commander"]),
+            dependencies: ["Ocha", "SwiftShell", "PathKit", "Yaml"]),
         .testTarget(
-            name: "TeapotTests",
-            dependencies: ["TeapotCore"]),
+            name: "TeapotCoreTests",
+            dependencies: ["TeapotCore", "Ocha"]),
     ]
 )
