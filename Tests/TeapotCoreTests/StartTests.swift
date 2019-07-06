@@ -19,7 +19,7 @@ class StartTests: XCTestCase {
     }
 
     func testExample() {
-        let translatedValue = ExecutorInformation(path: "Sources/Teapot/main.swift", command: ["ls", "-la"])
+        let translatedValue = ExecutorInformation(path: "Sources/Teapot/main.swift", commands: ["ls", "-la"])
         let translator = TranslatorMock()
         translator.translateConfigClosure = { _ in return [translatedValue] }
 
@@ -28,7 +28,7 @@ class StartTests: XCTestCase {
             return Config(
                 sourcePaths: ["Sources/Teapot/main.swift"],
                 ignoredPaths: [".git"],
-                command: ["ls -la"]
+                commands: ["ls -la"]
             )
         }
 
@@ -51,7 +51,7 @@ class StartTests: XCTestCase {
         start.run()
         wait(for: [expectation], timeout: 0.1)
         
-        XCTAssertEqual(executor.execInformationReceivedInformation?.command, translatedValue.command)
+        XCTAssertEqual(executor.execInformationReceivedInformation?.commands, translatedValue.commands)
         XCTAssertEqual(executor.execInformationReceivedInformation?.path, translatedValue.path)
     }
 
