@@ -4,6 +4,7 @@ import Commander
 
 Group {
     $0.command("setup", {
+        print("🍵 Teapot setup 🍵")
         try setup()
     })
     $0.command("start", {
