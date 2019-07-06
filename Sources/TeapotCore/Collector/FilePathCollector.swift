@@ -20,7 +20,12 @@ public struct FilePathCollector: Collector {
     }
     
     public func collect(info: Config) -> [Path] {
-        return info[keyPath: accessor].flatMap { path -> [Path] in
+        return info[keyPath: accessor]
+            .map { path -> Path in
+                let isAbstractPath = path.hasPrefix("/")
+                return isAbstractPath ? path : baseFilePath + "/" + path
+            }
+            .flatMap { path -> [Path] in
             let shouldGlob = path.contains("*")
             return shouldGlob ? Glob.glob(basePath: baseFilePath, pattern: path) : [path]
         }
