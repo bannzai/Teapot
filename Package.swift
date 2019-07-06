@@ -26,7 +26,7 @@ let package = Package(
             name: "TeapotCore",
             dependencies: ["Ocha", "SwiftShell", "PathKit", "Yaml"]),
         .testTarget(
-            name: "TeapotTests",
+            name: "TeapotCoreTests",
             dependencies: ["TeapotCore"]),
     ]
 )
