@@ -10,3 +10,4 @@ source:
 - Teapot.xcodeproj/*
 execute:
 - ls -la
+- cat
