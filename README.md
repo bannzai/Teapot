@@ -43,6 +43,10 @@ execute:
 - ls -la
 ```
 
+- `source` is target file of listen to changing.
+- `ignore` is ignored target file of listen to changing.
+- `execute` is exec shell command for changed target file.
+
 Next, Teapot can be execute your shell command for each file when file modified for it according to `teapot.yml` configuration. 
 
 ```swift
