@@ -1,4 +1,6 @@
-[![Teapot](logo/teapot_logo.png)](logo/teapot_logo.png)
+<div align="center" >
+  <img width="50%" src="logo/teapot_logo.png" />
+</div>
 
 [![swift5.0](https://img.shields.io/badge/language-swift5.0-blue.svg?style=flat)](https://developer.apple.com/swift)
 [![Platform](https://img.shields.io/badge/platform-macOS-green.svg)](https://img.shields.io/badge/platform-macOS-green.svg)
