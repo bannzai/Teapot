@@ -15,7 +15,7 @@ public func setup() throws {
         .stdout
         .split(separator: "\n")
         .filter { !$0.isEmpty }
-        .map { "- " + $0 }
+        .map { "- " + $0 + "/*" }
         .joined(separator: "\n")
     let content = """
     ignore:
