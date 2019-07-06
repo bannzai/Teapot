@@ -80,7 +80,7 @@ public class Start<T: Translator, E: Executor>: Runner where
     public func run() {
         let config: Config
         do {
-            config = try dependency.configReader.read(filePath: workingDirectory + teapotYamlFileName)
+            config = try dependency.configReader.read(filePath: workingDirectory + "/" + teapotYamlFileName)
         } catch {
             print(errorLogPrefix + "Can not read yaml file. " + error.localizedDescription)
             exit(1)
