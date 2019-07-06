@@ -4,7 +4,7 @@ import Commander
 
 Group {
     $0.command("setup", {
-        print("setup")
+        try setup()
     })
     $0.command("start", {
         let runner = TeapotRunner.create()
