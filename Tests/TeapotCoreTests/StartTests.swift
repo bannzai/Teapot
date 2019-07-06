@@ -19,19 +19,40 @@ class StartTests: XCTestCase {
     }
 
     func testExample() {
-        TeapotRunner(
-            workingDirectory: pwd
-            dependency: TeapotRunner.Dependency(
-                configurationTranslator: ConfigurationTranslator<FilePathExtractor, FilePathCollector>(
-                    extractor: FilePathExtractor(),
-                    sourcePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.sourcePaths),
-                    ignorePathCollector: FilePathCollector(baseFilePath: currentWorkingDirectory, accessor: \.ignoredPaths)
-                ),
-                configReader: YamlConfigReader(),
-                executor: TeapotCommandExecutor(),
-                watcherType: Ocha.Watcher.self
+        let translatedValue = ExecutorInformation(path: "Sources/Teapot/main.swift", command: ["ls", "-la"])
+        let translator = TranslatorMock()
+        translator.translateConfigClosure = { _ in return [translatedValue] }
+
+        let reader = ConfigReaderMock()
+        reader.readFilePathClosure = { path in
+            return Config(
+                sourcePaths: ["Sources/Teapot/main.swift"],
+                ignoredPaths: [".git"],
+                command: ["ls -la"]
+            )
+        }
+
+        let expectation = self.expectation(description: #function)
+        let executor = ExecutorMock<ExecutorInformation>()
+        executor.execInformationClosure = { _ in
+            expectation.fulfill()
+        }
+
+        let start = Start(
+            workingDirectory: pwd,
+            dependency: Start.Dependency(
+                configurationTranslator: translator,
+                configReader: reader,
+                executor: executor,
+                watcherType: WatcherMock.self
             )
         )
+        
+        start.run()
+        wait(for: [expectation], timeout: 0.1)
+        
+        XCTAssertEqual(executor.execInformationReceivedInformation?.command, translatedValue.command)
+        XCTAssertEqual(executor.execInformationReceivedInformation?.path, translatedValue.path)
     }
 
     func testPerformanceExample() {

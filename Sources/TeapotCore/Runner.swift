@@ -25,13 +25,13 @@ public class Start<T: Translator, E: Executor>: Runner where
         let configurationTranslator: T
         let configReader: ConfigReader
         let executor: E
-        let watcherType: Watcher.Type
+        let watcherType: WatcherType.Type
         
         public init(
             configurationTranslator: T,
             configReader: ConfigReader,
             executor: E,
-            watcherType: Watcher.Type
+            watcherType: WatcherType.Type
             ) {
             self.configurationTranslator = configurationTranslator
             self.configReader = configReader
@@ -44,7 +44,7 @@ public class Start<T: Translator, E: Executor>: Runner where
     private let dependency: Dependency
     
     // Keep watcher
-    private var watcher: Watcher!
+    private var watcher: WatcherType!
 
     public init(
         workingDirectory: String,
@@ -92,9 +92,7 @@ public class Start<T: Translator, E: Executor>: Runner where
             // FIXME: Watcher can not register throws keyword. Because Watcher.start call from Objective-C API.
             do {
                 try infos
-                    .filter { info in
-                        events.map { $0.path }.contains(info.path)
-                    }
+                    .filter { info in events.map { $0.path }.contains(info.path) }
                     .forEach { try self?.dependency.executor.exec(information: $0) }
             } catch {
                 print(errorLogPrefix + error.localizedDescription)
