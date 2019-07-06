@@ -11,7 +11,7 @@ import Yaml
 public struct Config {
     public let sourcePaths: [Path]
     public let ignoredPaths: [Path]
-    public let command: Command
+    public let commands: Commands
 }
 
 public struct YamlConfigReader: ConfigReader {
@@ -44,7 +44,7 @@ private extension YamlConfigReader {
         return Config(
             sourcePaths: sources.compactMap { $0.string },
             ignoredPaths: ignores.compactMap { $0.string },
-            command: execute.compactMap { $0.string }
+            commands: execute.compactMap { $0.string }
         )
         
     }

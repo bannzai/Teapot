@@ -25,6 +25,6 @@ extension ConfigurationTranslator: Translator where E.ExtractContentType == Path
                 sources: sourcePathCollector.collect(info: config),
                 ignores: ignorePathCollector.collect(info: config)
             )
-            .map { ExecutorInformation(path: $0, command: config.command) }
+            .map { ExecutorInformation(path: $0, commands: config.commands) }
     }
 }

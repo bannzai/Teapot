@@ -8,4 +8,4 @@
 import Foundation
 
 public typealias Path = String
-public typealias Command = [String]
+public typealias Commands = [String]
