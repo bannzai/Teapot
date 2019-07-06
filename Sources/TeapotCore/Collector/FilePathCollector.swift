@@ -26,8 +26,8 @@ public struct FilePathCollector: Collector {
                 return isAbstractPath ? path : baseFilePath + "/" + path
             }
             .flatMap { path -> [Path] in
-            let shouldGlob = path.contains("*")
-            return shouldGlob ? Glob.glob(basePath: baseFilePath, pattern: path) : [path]
+                let shouldGlob = path.contains("*")
+                return shouldGlob ? Glob.glob(pattern: path) : [path]
         }
     }
 }

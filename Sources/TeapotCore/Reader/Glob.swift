@@ -11,17 +11,9 @@ import Darwin
 public struct Glob {
     private static let globFlags = GLOB_TILDE | GLOB_BRACE | GLOB_MARK
     
-    public static func glob(basePath: Path, pattern: String) -> [Path] {
-        let globURL: Path
-        switch basePath.last == "/" {
-        case true:
-            globURL = basePath + pattern
-        case false:
-            globURL = basePath + "/" + pattern
-        }
-
+    public static func glob(pattern: String) -> [Path] {
         var gt = glob_t()
-        let cPattern = strdup(globURL)
+        let cPattern = strdup(pattern)
         defer {
             globfree(&gt)
             free(cPattern)
