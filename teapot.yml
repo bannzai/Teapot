@@ -1,10 +1,9 @@
 ignore:
-- ".git"
-- ".gitignore"
-- tests/*
+- .git*
 source:
+- .gitignore
 - build/*
-- Sources/*.*
-- Sources/Teapot/*.*
+- Sources/*
+- Sources/Teapot/*
 execute: 
 - ls -la
