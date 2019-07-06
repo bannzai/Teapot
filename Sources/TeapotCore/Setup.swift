@@ -32,10 +32,10 @@ public func setup() throws {
     
     
     let content = """
-    ignore:
-    - .git*
     source:
     \(sources)
+    ignore:
+    - .git*
     execute:
     - ls -la
     """

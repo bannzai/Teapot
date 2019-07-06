@@ -31,14 +31,14 @@ $ teapot setup
 
 This will generate the following file:
 ```yaml
-ignore:
-- ".git"
-- ".gitignore"
-- tests/*
 source:
 - build/*
 - Sources/*.*
 - Sources/Teapot/*.*
+ignore:
+- ".git"
+- ".gitignore"
+- tests/*
 execute: 
 - ls -la
 ```

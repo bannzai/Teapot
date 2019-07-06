@@ -1,13 +1,14 @@
-ignore:
-- .git*
 source:
 - teapot.yml
+- LICENSE
 - Tests/*
 - README.md
 - Package.resolved
+- logo/*
 - Package.swift
 - Sources/*
 - Teapot.xcodeproj/*
+ignore:
+- .git*
 execute:
 - ls -la
-- cat
