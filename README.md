@@ -22,12 +22,25 @@ $ mint install bannzai/Teapot
 ```
 
 ## Usage
-
-Teapot necessary configuration file named `teapot.yml`.
+First, Teapot necessary configuration file named `teapot.yml`.
 Teapot can prepare `teapot.yml` to under the current directory via `$ teapot setup`.
 ```swift
 $ teapot setup
 🍵 Teapot setup completion. You can edit ./teapot.yml 🍵
+```
+
+This will generate the following file:
+```yaml
+ignore:
+- ".git"
+- ".gitignore"
+- tests/*
+source:
+- build/*
+- Sources/*.*
+- Sources/Teapot/*.*
+execute: 
+- ls -la
 ```
 
 Next, Teapot can be execute your shell command for each file when file modified for it according to `teapot.yml` configuration. 
@@ -36,6 +49,8 @@ Next, Teapot can be execute your shell command for each file when file modified 
 $ teapot start
 🍵 Teapot start 🍵
 ```
+
+For example, when you edit some file, teapot display result of `$ ls -la` to changed file.
 
 ## LICENSE
 [Teapot](https://github.com/bannzai/Teapot/) is released under the MIT license. See [LICENSE](https://github.com/bannzai/Teapot/blob/master/LICENSE.txt) for details.
