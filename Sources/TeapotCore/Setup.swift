@@ -14,6 +14,7 @@ public func setup() throws {
     let sources = try FileManager
         .default
         .contentsOfDirectory(atPath: currentDirectory)
+        .filter { !$0.hasPrefix(".") }
         .reduce([String]()) { (result, url) in
             var isDirectory = ObjCBool(false)
             var yamlElement: Path = "- " + url
@@ -27,7 +28,6 @@ public func setup() throws {
             }
             return result + [yamlElement]
         }
-        .filter { !$0.hasPrefix(".") }
         .joined(separator: "\n")
     
     
