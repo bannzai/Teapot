@@ -1,6 +1,7 @@
 source:
 - teapot.yml
 - LICENSE
+- Makefile
 - Tests/*
 - README.md
 - Package.resolved
@@ -11,4 +12,5 @@ source:
 ignore:
 - .git*
 execute:
-- ls -la
+- ls -la __FILE__
+- echo $HOME
