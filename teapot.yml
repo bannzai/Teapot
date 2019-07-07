@@ -1,6 +1,7 @@
 source:
 - teapot.yml
 - LICENSE
+- Makefile
 - Tests/*
 - README.md
 - Package.resolved
