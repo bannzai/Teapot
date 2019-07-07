@@ -37,7 +37,7 @@ public func setup() throws {
     ignore:
     - .git*
     execute:
-    - ls -a \(markOfFile)
+    - ls -la \(markOfFile)
     """
 
     let url = URL(fileURLWithPath: currentDirectory + "/" + teapotYamlFileName)
