@@ -38,6 +38,7 @@ public func setup() throws {
     - .git*
     execute:
     - ls -la \(markOfFile)
+    - echo $HOME
     """
 
     let url = URL(fileURLWithPath: currentDirectory + "/" + teapotYamlFileName)
