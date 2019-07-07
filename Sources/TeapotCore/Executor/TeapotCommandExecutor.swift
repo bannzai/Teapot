@@ -13,13 +13,20 @@ public struct ExecutorInformation {
     let commands: Commands
 }
 
+let markOfFile = "__FILE__"
 public struct TeapotCommandExecutor: Executor {
     public init() {
         
     }
     public func exec(information: ExecutorInformation) throws {
         information.commands.forEach { shellCommand in
-            let command = shellCommand + " \(information.path)"
+            let command: String
+            switch shellCommand.contains(markOfFile) {
+            case true:
+                command = shellCommand.replacingOccurrences(of: markOfFile, with: information.path)
+            case false:
+                command = shellCommand
+            }
             let output = main.run(bash: command)
             switch output.succeeded {
             case false:
