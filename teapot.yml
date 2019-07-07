@@ -12,3 +12,4 @@ ignore:
 - .git*
 execute:
 - ls -la __FILE__
+- echo $HOME
