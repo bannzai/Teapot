@@ -11,4 +11,4 @@ source:
 ignore:
 - .git*
 execute:
-- ls -la
+- ls -a __FILE__
