@@ -40,12 +40,14 @@ ignore:
 - ".gitignore"
 - tests/*
 execute: 
-- ls -la
+- ls -la __FILE__
+- echo $HOME
 ```
 
 - `source` is target file of listen to changing.
 - `ignore` is ignored target file of listen to changing.
 - `execute` is exec shell command for changed target file.
+- `__FILE__` is mark of changed file. So, It is replaced when file changed.
 
 Next, Teapot can be execute your shell command for each file when file modified for it according to `teapot.yml` configuration. 
 
